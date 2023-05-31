@@ -8,7 +8,7 @@ Use sql_store;
 SELECT *
 FROM products
 WHERE unit_price > (
-	SELECT unit_price
+    SELECT unit_price
     FROM products
     WHERE product_id = 3
 	);
@@ -158,7 +158,7 @@ WHERE client_id = ANY (
 SELECT *
 FROM employees e
 WHERE salary > (
-	SELECT AVG(salary)
+    SELECT AVG(salary)
     FROM employees
     WHERE office_id = e.office_id
 	);
@@ -279,7 +279,7 @@ WHERE YEAR(order_date) = YEAR(NOW());
 
 USE sql_store;
 SELECT
-	order_id, 
+    order_id, 
     order_date,
     IF(YEAR(order_date) = YEAR(NOW()), 
     'Active', 
@@ -291,11 +291,11 @@ FROM orders;
 -- if function only allows single test expression
 USE sql_store;
 SELECT 
-	order_id,
+    order_id,
     CASE
-		WHEN YEAR(order_date) = YEAR(NOW()) THEN 'Active'
+	WHEN YEAR(order_date) = YEAR(NOW()) THEN 'Active'
         WHEN YEAR(order_date) = YEAR(NOW()) - 1 THEN 'Last Year'
         WHEN YEAR(order_date) < YEAR(NOW()) - 1 THEN 'Archived'
         ELSE 'Future'
-	END AS category
+    END AS category
 FROM orders;
