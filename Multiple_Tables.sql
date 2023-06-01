@@ -100,7 +100,7 @@ JOIN order_statuses AS os
 
 
 SELECT o.order_id,
-		o.order_date,
+	o.order_date,
         c.first_name,
         c.last_name,
         os.name AS 'status' 
@@ -122,7 +122,7 @@ JOIN payment_methods AS pm
 	ON pm.payment_method_id = p.payment_method;
     
 SELECT 
-	p.payment_id,
+    p.payment_id,
     c.name,
     p.amount,
     pm.name AS 'payment_method'
@@ -174,7 +174,7 @@ JOIN orders AS o
 -- for clarity let's pick some columns
 USE sql_store;
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id
 FROM customers AS c
@@ -192,7 +192,7 @@ JOIN orders AS o
 -- LEFT JOIN: returns all customers wheather they have an order or not (the condition we set is true or not!)
 USE sql_store;
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id
 FROM customers AS c
@@ -205,7 +205,7 @@ LEFT JOIN orders AS o
 
 USE sql_store;
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id
 FROM customers AS c
@@ -218,7 +218,7 @@ ORDER BY customer_id;
 -- again the same probelm: only ordres are displayed that has a shipper_id
 USE sql_store;
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id,
     sh.name AS 'Shipper'
@@ -236,7 +236,7 @@ ORDER BY customer_id;
 
 -- produce the rsult like this:
 SELECT
-	o.order_id,
+    o.order_id,
     o.order_date,
     c.first_name AS 'Customer',
     sh.name AS 'Shipper',
@@ -254,7 +254,7 @@ JOIN order_statuses AS os
 -- then you can use USING clause
 
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id,
     sh.name AS 'Shipper'
@@ -279,7 +279,7 @@ LEFT JOIN order_item_notes AS oin
 -- we only let the db engine decide how to join the tables
 -- that may produce unexpected resutl!
 SELECT 
-	c.customer_id,
+    c.customer_id,
     c.first_name,
     o.order_id
 FROM customers AS c
@@ -297,14 +297,14 @@ FROM orders
 WHERE order_date >= '2019-01-01';
 
 SELECT 
-	order_id,
+    order_id,
     order_date,
     'ACTIVE' AS status
 FROM orders
 WHERE order_date >= '2019-01-01';
 
 SELECT 
-	order_id,
+    order_id,
     order_date,
     'ARCHIVED' AS status
 FROM orders
@@ -312,14 +312,14 @@ WHERE order_date < '2019-01-01';
 
 -- now with UNION we can combine all the rows
 SELECT 
-	order_id,
+    order_id,
     order_date,
     'ACTIVE' AS status
 FROM orders
 WHERE order_date >= '2019-01-01'
 UNION
 SELECT 
-	order_id,
+    order_id,
     order_date,
     'ARCHIVED' AS status
 FROM orders
