@@ -8,7 +8,7 @@
 
 USE sql_invoicing;
 SELECT 
-	c.client_id,
+    c.client_id,
     c.name,
     SUM(invoice_total) AS total_sales
 FROM clients c
@@ -21,7 +21,7 @@ GROUP BY client_id, name;
 -- one example order the result in DESC order based on total_sale
 USE sql_invoicing;
 SELECT 
-	c.client_id,
+    c.client_id,
     c.name,
     SUM(invoice_total) AS total_sales
 FROM clients c
@@ -32,7 +32,7 @@ ORDER BY total_sales DESC;
 -- another example applying some filtering
 USE sql_invoicing;
 SELECT 
-	c.client_id,
+    c.client_id,
     c.name,
     SUM(invoice_total) AS total_sales
 FROM clients c
@@ -48,7 +48,7 @@ ORDER BY total_sales DESC;
 -- creat a VIEW
 CREATE VIEW sales_by_client AS
 SELECT 
-	c.client_id,
+    c.client_id,
     c.name,
     SUM(invoice_total) AS total_sales
 FROM clients c
@@ -84,7 +84,7 @@ DROP VIEW sales_by_client;
 -- 2) CREATE OR REPLACE, you don't need to drop the view first!
 CREATE OR REPLACE VIEW sales_by_client AS
 SELECT 
-	c.client_id,
+    c.client_id,
     c.name,
     SUM(invoice_total) AS total_sales
 FROM clients c
@@ -117,7 +117,7 @@ we consider it as an updateable view */
 
 CREATE OR REPLACE VIEW invoices_with_balance AS
 SELECT
-	invoice_id,
+    invoice_id,
     number,
     client_id,
     invoice_total,
@@ -166,7 +166,7 @@ WHERE invoice_id = 3;
 
 CREATE OR REPLACE VIEW invoices_with_balance AS
 SELECT
-	invoice_id,
+    invoice_id,
     number,
     client_id,
     invoice_total,
@@ -358,7 +358,7 @@ CREATE PROCEDURE get_clients_by_state
 BEGIN
 	
     IF state IS NULL THEN
-		SELECT * FROM clients c
+	SELECT * FROM clients c
         WHERE c.state = IFNULL(state, c.state);
 	END IF;
     
@@ -379,12 +379,12 @@ DELIMITER $$
 
 CREATE PROCEDURE make_payment
 (
-	invoice_id INT,
+    invoice_id INT,
     payment_amount DECIMAL(9, 2), /* it represents number with decimal point, first argument represent the total number of digits, the number of digits after the decimal point */
     payment_date DATE
 )
 BEGIN
-	UPDATE invoices i
+    UPDATE invoices i
     SET
 		i.payment_total = payment_amount,
         i.payment_date = payment_date
@@ -414,7 +414,7 @@ DELIMITER $$
 
 CREATE PROCEDURE make_payment
 (
-	invoice_id INT,
+    invoice_id INT,
     payment_amount DECIMAL(9, 2), /* it represents number with decimal point, first argument represent the total number of digits, the number of digits after the decimal point */
     payment_date DATE
 )
@@ -425,7 +425,7 @@ BEGIN
 	
     UPDATE invoices i
     SET
-		i.payment_total = payment_amount,
+	i.payment_total = payment_amount,
         i.payment_date = payment_date
 	WHERE i.invoice_id = invoice_id;
 
@@ -446,7 +446,7 @@ CREATE PROCEDURE get_unpaid_invoices_for_client
 	client_id INT
 )
 BEGIN
-	SELECT COUNT(*), SUM(invoice_total)
+    SELECT COUNT(*), SUM(invoice_total)
     FROM invoices i
     WHERE i.client_id = client_id
 		AND payment_total = 0;
@@ -477,7 +477,7 @@ CREATE PROCEDURE get_unpaid_invoices_for_client
     OUT invoices_total DECIMAL(9, 2)
 )
 BEGIN
-	SELECT COUNT(*), SUM(invoice_total)
+    SELECT COUNT(*), SUM(invoice_total)
     INTO invoices_count, invoices_total
     FROM invoices i
     WHERE i.client_id = client_id
