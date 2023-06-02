@@ -290,7 +290,7 @@ CREATE PROCEDURE get_clients_by_state
 	state CHAR(2) /* represents a string with two chars */
 )
 BEGIN
-	SELECT * FROM clients c
+    SELECT * FROM clients c
     WHERE c.state = state;
 END $$
 DELIMITER ;
@@ -315,10 +315,10 @@ CREATE PROCEDURE get_clients_by_state
 BEGIN
 	
     IF state IS NULL THEN
-		SET state = "CA";
-	END IF;
+	SET state = "CA";
+    END IF;
     
-	SELECT * FROM clients c
+    SELECT * FROM clients c
     WHERE c.state = state;
 END $$
 DELIMITER ;
@@ -334,13 +334,12 @@ CREATE PROCEDURE get_clients_by_state
 )
 BEGIN
 	
-    IF state IS NULL THEN
+        IF state IS NULL THEN
 		SELECT * FROM clients;
 	ELSE
 		SELECT * FROM clients c
 		WHERE c.state = state;
 	END IF;
-    
 END $$
 DELIMITER ;
 
@@ -356,12 +355,8 @@ CREATE PROCEDURE get_clients_by_state
 	state CHAR(2) /* represents a string with two chars */
 )
 BEGIN
-	
-    IF state IS NULL THEN
 	SELECT * FROM clients c
         WHERE c.state = IFNULL(state, c.state);
-	END IF;
-    
 END $$
 DELIMITER ;
 
@@ -386,10 +381,9 @@ CREATE PROCEDURE make_payment
 BEGIN
     UPDATE invoices i
     SET
-		i.payment_total = payment_amount,
+	i.payment_total = payment_amount,
         i.payment_date = payment_date
-	WHERE i.invoice_id = invoice_id;
-
+    WHERE i.invoice_id = invoice_id;
 END $$
 DELIMITER ;
 
@@ -419,15 +413,15 @@ CREATE PROCEDURE make_payment
     payment_date DATE
 )
 BEGIN
-	IF payment_amount <= 0 THEN
-		SIGNAL SQLSTATE '22003' SET MESSAGE_TEXT = 'Invalid payment amount';
-	END IF;
+    IF payment_amount <= 0 THEN
+	SIGNAL SQLSTATE '22003' SET MESSAGE_TEXT = 'Invalid payment amount';
+    END IF;
 	
     UPDATE invoices i
     SET
 	i.payment_total = payment_amount,
         i.payment_date = payment_date
-	WHERE i.invoice_id = invoice_id;
+    WHERE i.invoice_id = invoice_id;
 
 END $$
 DELIMITER ;
@@ -449,7 +443,7 @@ BEGIN
     SELECT COUNT(*), SUM(invoice_total)
     FROM invoices i
     WHERE i.client_id = client_id
-		AND payment_total = 0;
+        AND payment_total = 0;
 END $$
 DELIMITER ;
 
@@ -474,7 +468,7 @@ CREATE PROCEDURE get_unpaid_invoices_for_client
 (
 	client_id INT,
 	OUT invoices_count INT,
-    OUT invoices_total DECIMAL(9, 2)
+        OUT invoices_total DECIMAL(9, 2)
 )
 BEGIN
     SELECT COUNT(*), SUM(invoice_total)
