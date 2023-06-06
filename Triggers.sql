@@ -10,7 +10,7 @@
 DELIMITER $$
 -- It shows this trigger is associated to this table and it is fired after we insert a record
 CREATE TRIGGER payments_after_insert
-	AFTER /*BEFORE*/ INSERT  ON payments
+    AFTER /*BEFORE*/ INSERT ON payments
     FOR EACH ROW /* if we insert 5 rows it will be fired for each row, some DBMSs support table level triggered that only fired once */
 BEGIN
 /* body of the trigger */
@@ -31,10 +31,10 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER payments_after_insert
-	AFTER INSERT  ON payments
+    AFTER INSERT ON payments
     FOR EACH ROW 
 BEGIN
-	UPDATE invoices 
+    UPDATE invoices 
     SET payment_total = payment_total + NEW.amount
     WHERE invoice_id = NEW.invoice_id;
 END $$
@@ -53,10 +53,10 @@ DELIMITER $$
 
 
 CREATE TRIGGER payments_after_delete
-	AFTER DELETE ON payments
+    AFTER DELETE ON payments
     FOR EACH ROW
 BEGIN
-	UPDATE invoices 
+    UPDATE invoices 
     SET payment_total = payment_total - OLD.amount
     WHERE invoice_id = OLD.invoice_id;
 END $$
@@ -73,7 +73,6 @@ SHOW TRIGGERS;
 -- we can also filter the result
 -- suppose we only want to see triggers created for the payments table
 SHOW TRIGGERS LIKE 'payments%';
-
 
 
 -- ****************************[Dropping Triggers]**********************
@@ -98,8 +97,8 @@ USE sql_invoicing;
 
 CREATE TABLE payments_audit
 (
-	client_id 	INT				NOT NULL,
-    date		DATE			NOT NULL,
+    client_id 	        INT		NOT NULL,
+    date		DATE		NOT NULL,
     amount		DECIMAL(9, 2)	NOT NULL,
     action_type	VARCHAR(50)		NOT NULL,
     action_date	DATETIME		NOT NULL
@@ -114,10 +113,10 @@ CREATE TABLE payments_audit
 DELIMITER $$
 DROP TRIGGER IF EXISTS payments_after_insert;
 CREATE TRIGGER payments_after_insert
-	AFTER INSERT  ON payments
+    AFTER INSERT ON payments
     FOR EACH ROW 
 BEGIN
-	UPDATE invoices 
+    UPDATE invoices 
     SET payment_total = payment_total + NEW.amount
     WHERE invoice_id = NEW.invoice_id;
 	
@@ -129,7 +128,7 @@ DELIMITER ;
 -- NOTE: if you wanted to add this auditing scritp for the delete trigger,
 -- you would have to get the OLD values, instead of NEW
 -- INSERT INTO payments_audit
--- VALUES (OLD.client_id, OLD.date, OLD.amount, 'Delete', OLD());
+-- VALUES (OLD.client_id, OLD.date, OLD.amount, 'Delete', NOW());
 -- remeber this and use it to solve the trigger assingment
 
 -- now let's create a new payment and insert it into a the payments:
@@ -178,7 +177,7 @@ ON SCHEDULE
 	-- AT '2023-05-01' -> this is when an event is done only once;
     EVERY 1 YEAR STARTS '2023-01-01' ENDS '2029-01-01'
 DO BEGIN
-	DELETE FROM payments_audit
+    DELETE FROM payments_audit
     WHERE action_date < NOW() - INTERVAL 1 YEAR;
 END $$
 
